@@ -1,0 +1,43 @@
+#2th Lesson Commands
+
+\l --> list the databases
+
+CREATE DATABASE database_name; --> create a database
+
+\c database_name --> connect to a database
+
+CREATE TABLE table_name(); --> create a table
+
+\d --> display the tables from a database
+
+\d table_name; --> show details about the table
+
+ALTER TABLE table_name ADD COLUMN column_name DATAYPE --> add a column to a table with the given datatype
+
+ALTER TABLE table_name DROP COLUMN column_name; --> remove a column
+
+ALTER TABLE table_name RENAME COLUMN column_name TO new_name; --> rename a column
+
+INSERT INTO table_name(column_1, column_2) VALUES(value1, value2); --> insert a row to the table, with the given values at the defined columns
+
+SELECT columns FROM table_name; --> view the selected columns
+
+SELECT * FROM table_name; --> view all columns
+
+DELETE FROM table_name WHERE condition; --> delete a row with the given condition
+
+DROP TABLE table_name; --> delete the table
+
+ALTER DATABASE database_name RENAME TO new_database_name --> rename a database
+
+DROP DATABASE database_name; --> delete a database
+
+UPDATE table_name SET column_name=new_value WHERE condition; --> change a column name
+
+SELECT columns FROM table_name ORDER BY column_name; --> view selected columns ordered by the given column
+
+ALTER TABLE table_name ADD PRIMARY KEY(column_name); --> define a column as primary KEY
+
+ALTER TABLE table_name DROP CONSTRAINT constraint_name; --> drop a constraint from a table
+
+
