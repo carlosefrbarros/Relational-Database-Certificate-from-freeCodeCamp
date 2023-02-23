@@ -40,4 +40,13 @@ ALTER TABLE table_name ADD PRIMARY KEY(column_name); --> define a column as prim
 
 ALTER TABLE table_name DROP CONSTRAINT constraint_name; --> drop a constraint from a table
 
+ALTER TABLE table_name ADD COLUMN column_name DATATYPE REFERENCES referenced_table_name(referenced_column_name); --> add a column as foreign key
+
+ALTER TABLE table_name ADD UNIQUE(column_name); --> add the unique constraint to the given column
+
+ALTER TABLE table_name ALTER COLUMN column_name SET NOT NULL; --> add the not null constraint to the given column
+
+SELECT columns FROM table_name WHERE condition; --> select to view columns based in a condition
+
+CREATE TABLE table_name(column_name DATATYPE CONSTRAINTS); --> create a table with the column as specified
 

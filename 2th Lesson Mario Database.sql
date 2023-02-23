@@ -366,3 +366,209 @@ alter table characters add primary key(character_id);
 
 \d characters;
 
+/*That's better. The table looks complete for now. Next, create a new table named more_info for some extra info about the characters.*/
+
+create table more_info();
+
+\d
+
+/*I wonder what that third one is. It says characters_character_id_seq. I think I have a clue. View the details of the characters table.*/
+
+\d characters;
+
+/*That is what finds the next value for the character_id column. Add a column to your new table named more_info_id. Make it a type of SERIAL.*/
+
+alter table more_info add column more_info_id serial;
+
+/*Set your new column as the primary key for this table.*/
+
+alter table more_info add primary key (more_info_id);
+
+/*View the tables in mario_database again with the display command. There should be another sequence there for the more_info_id because it also automatically increments.*/
+
+\d
+
+/*There it is. Add another column to more_info named birthday. Give it a data type of DATE.*/
+
+alter table more_info add column birthday date;
+
+/*Add a height column to more_info that's a type of INT.*/
+
+alter table more_info add column height int;
+
+/*Add a weight column. Give it a type of NUMERIC(4, 1). That data type is for decimals. NUMERIC(4, 1) has up to four digits and one of them has to be to the right of the decimal.*/
+
+alter table more_info add column weight numeric(4, 1);
+
+/*Take a look at the details of more_info to see all your columns.*/
+
+\d more_info;
+
+/*There’s your four columns and the primary key you created at the bottom. To know what row is for a character, you need to set a foreign key so you can relate rows from this table to rows from your characters table. Here's an example that creates a column as a foreign key:
+ALTER TABLE table_name ADD COLUMN column_name DATATYPE REFERENCES referenced_table_name(referenced_column_name);
+That's quite the command. In the more_info table, create a character_id column. Make it an INT and a foreign key that references the character_id column from the characters table. Good luck.*/
+
+alter table more_info add column character_id int references characters(character_id);
+
+/*To set a row in more_info for Mario, you just need to set the character_id (foreign key) value to whatever it is in the characters table. Take a look at the details of more_info to see your foreign key.*/
+
+\d more_info;
+
+/*There's your foreign key at the bottom. These tables have a "one-to-one" relationship. One row in the characters table will be related to exactly one row in more_info and vice versa. Enforce that by adding the UNIQUE constraint to your foreign key. Here's an example:
+ALTER TABLE table_name ADD UNIQUE(column_name);
+Add the UNIQUE constraint to the column you just added.*/
+
+alter table more_info add unique(character_id);
+
+/*The column should also be NOT NULL since you don't want to have a row that is for nobody. Here's an example:
+ALTER TABLE table_name ALTER COLUMN column_name SET NOT NULL;
+Add the NOT NULL constraint to your foreign key column.*/
+
+alter table more_info alter column character_id set not null;
+
+/*Take a look at the details of your more_info table to see all the keys and constraints you added.*/
+
+\d more_info;
+
+/*The structure is set, now you can add some rows. First, you need to know what character_id you need for the foreign key column. You have viewed all columns in a table with *. You can pick columns by putting in the column name instead of *. Use SELECT to view the character_id column from the characters table.*/
+
+select character_id from characters;
+
+/*That list of numbers doesn't really help. Use SELECT again to display both the character_id and name columns from the characters table. You can separate the column names with a comma to view both.*/
+
+select character_id, name from characters;
+
+/*That's better. You can see Mario's id there. Here's some more info for him:
+birthday	height	weight
+1981-07-09	155	64.5
+Add a row to more_info with the above data for Mario using the INSERT INTO and VALUES keywords. Be sure to set his character_id when adding him. Also, DATE values need a string with the format: 'YYYY-MM-DD'.*/
+
+insert into more_info values ('1', '1981-07-09', '155', '64.5', '1');
+
+/*View all the data in more_info to make sure it's looking good.*/
+
+select * from more_info;
+
+/*Next, you are going to add some info for Luigi. Use SELECT again to view the character_id and name columns from the characters table to find his id.*/
+
+select character_id, name from characters;
+
+/*You can see Luigi's id there. Here's his info:
+birthday	height	weight
+1983-07-14	175	48.8
+Add a row in more_info for Luigi using the above info. Be sure to add his character_id as well.*/
+
+insert into more_info values ('2', '1983-07-14', '175', '48.8', '2');
+
+/*View all the data in more_info to see more info for Luigi.*/
+
+select * from more_info;
+
+/*Peach is next. View the character_id and name columns from the characters table again so you can find her id.*/
+
+select character_id, name from characters;
+
+/*Here's the additional info for Peach:
+birthday	height	weight
+1985-10-18	173	52.2
+Add a row for Peach using the above info. Be sure to add her character_id as well.*/
+
+insert into more_info values ('3', '1985-10-18', '173', '52.2', '3');
+
+/*Toad is next. Instead of viewing all the rows to find his id, you can just view his row with a WHERE condition. You used several earlier to delete and update rows. You can use it to view rows as well. Here's an example:
+SELECT columns FROM table_name WHERE condition;
+A condition you used before was username='Samus'. Find Toad's id by viewing the character_id and name columns from characters for only his row.*/
+
+select character_id, name from characters where name = 'Toad';
+
+/*Here's what Toad's info looks like:
+birthday	height	weight
+1950-01-10	66	35.6
+Add the above info for Toad. Be sure to add his character_id.*/
+
+insert into more_info values ('4', '1950-01-10', '66', '35.6', '4');
+
+/*View all the data in more_info to see the rows you added.*/
+
+select * from more_info;
+
+/*Bowser is next. Find his id by viewing the character_id and name columns for only his row.*/
+
+select character_id, name from characters where name = 'Bowser';
+
+/*Here's what Bowser's info looks like:
+
+birthday	height	weight
+1990-10-29	258	300
+Add the above info for Bowser. Don't forget to add his character_id.*/
+
+insert into more_info values ('5', '1990-10-29', '258', '300', '5');
+
+/*Daisy is next. Find her id by viewing the character_id and name columns for only her row.*/
+
+select character_id, name from characters where name = 'Daisy';
+
+/*The info for Daisy looks like this:
+birthday	height	weight
+1989-07-31	NULL	NULL
+Add the above info for Daisy to more_info. Be sure to add her character_id as well. You can use NULL or simply not include the null columns when inserting.*/
+
+insert into more_info values ('6', '1989-07-31', null, null, '6');
+
+/*View all the data in more_info to see the rows you added.*/
+
+select * from more_info;
+
+/*Null values show up as blank. Yoshi is last. Find his id by viewing the character_id and name columns for only his row.*/
+
+select character_id, name from characters where name = 'Yoshi';
+
+/*The info for Yoshi looks like this:
+birthday	height	weight
+1990-04-13	162	59.1
+Add the above info for Yoshi to more_info. Be sure to include his character_id.*/
+
+insert into more_info values ('7', '1990-04-13', '162', '59.1', '7');
+
+/*There should be a lot of data in more_info now. Take a look at all the rows and columns in it.*/
+
+select * from more_info;
+
+/*It looks good. There is something you can do to help out though. What units do the height and weight columns use? It's centimeters and kilograms, but nobody will know. Rename the height column to height_in_cm.*/
+
+alter table more_info rename column height to height_in_cm;
+
+/*Rename the weight column to weight_in_kg.*/
+
+alter table more_info rename column weight to weight_in_kg;
+
+/*Take a quick look at all the data in more_info to see the new column names.*/
+
+select * from more_info;
+
+/*Next, you will make a sounds table that holds filenames of sounds the characters make. You created your other tables similar to this:
+CREATE TABLE table_name();
+Inside those parenthesis you can put columns for a table so you don't need to add them with a separate command, like this:
+CREATE TABLE table_name(column_name DATATYPE CONSTRAINTS);
+Create a new table named sounds. Give it a column named sound_id of type SERIAL and a contraint of PRIMARY KEY.*/
+
+create table sounds(sound_id serial primary key);
+
+/*View the tables in mario_database to make sure it worked.*/
+
+\d
+
+/*There's your sounds table. Add a column to it named filename. Make it a VARCHAR that has a max length of 40 and with constraints of NOT NULL and UNIQUE. You can put those contraints at the end of the query to add them all.*/
+
+alter table sounds add column filename varchar(40) not null unique;
+
+/*You want to use character_id as a foreign key again. This will be a "one-to-many" relationship because one character will have many sounds, but no sound will have more than one character. Here's the example again:
+ALTER TABLE table_name ADD COLUMN column_name DATATYPE CONSTRAINT REFERENCES referenced_table_name(referenced_column_name);
+Add a column to sounds named character_id. Give it the properties INT, NOT NULL, and set it as a foreign key that references character_id from characters.*/
+
+alter table sounds add column character_id int not null references characters(character_id);
+
+/*Take a look at the details of the sounds table to see all the columns.*/
+
+\d sounds;
+
