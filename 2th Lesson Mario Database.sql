@@ -572,3 +572,165 @@ alter table sounds add column character_id int not null references characters(ch
 
 \d sounds;
 
+/*Next, you will add some rows. But first, view all the data in characters so you can find the correct id's again. Order them by character_id like you did earlier.*/
+
+select * from characters order by character_id;
+
+/*The first file is named its-a-me.wav. Insert it into the sounds table with Mario's id as the character_id.*/
+
+insert into sounds values ('1', 'its-a-me.wav', '1');
+
+/*Add another row with a filename of yippee.wav. Use Mario's character_id again for the foreign key value.*/
+
+insert into sounds values ('2', 'yippee.wav', '1');
+
+/*Add another row to sounds for Luigi named ha-ha.wav. Use his character_id this time. Take a look at the data in characters to find his id if you need to.*/
+
+insert into sounds values ('3', 'ha-ha.wav', '2');
+
+/*Add another row with a filename of oh-yeah.wav. This one is for Luigi as well so use his character_id again.*/
+
+insert into sounds values ('4', 'oh-yeah.wav', '2');
+
+/*Add two more rows for Peach sounds. The filenames are yay.wav and woo-hoo.wav. Don't forget her character_id. Try to do it with one command.*/
+
+insert into sounds values ('5', 'yay.wav', '3'), ('6', 'woo-hoo.wav', '3');
+
+/*Add two more rows. The filenames are mm-hmm.wav and yahoo.wav. The first one is for Peach again, the second is for Mario, so use the correct foreign key values. Try to do it with one command.*/
+
+insert into sounds values ('7', 'mm-hmm.wav', '3'), ('8', 'yahoo.wav', '1');
+
+/*View all the data in the sounds table. You should be able to see the "one-to-many" relationship better. One character has many sounds.*/
+
+select * from sounds;
+
+/*See the "one-to-many" relationship? Create another new table called actions. Give it a column named action_id that's a type of SERIAL, and make it the PRIMARY KEY. Try to create the table and add the column with one command.*/
+
+create table actions(action_id serial primary key);
+
+/*Add a column named action to your new table. Give it a type of VARCHAR that is a max length of 20 and has UNIQUE and NOT NULL constraints.*/
+
+alter table actions add column action varchar(20) unique not null;
+
+/*The actions table won't have any foreign keys. It's going to have a "many-to-many" relationship with the characters table. This is because many of the characters can perform many actions. You will see why you don't need a foreign key later. Insert a row into the actions table. Give it an action of run.*/
+
+insert into actions values ('1', 'run');
+
+/*Insert another row into the actions table. Give it an action of jump.*/
+
+insert into actions values ('2', 'jump');
+
+/*Add another action row with an action of duck.*/
+
+insert into actions values ('3', 'duck');
+
+/*View all the data in actions to make sure there's no mistakes.*/
+
+select * from actions;
+
+/*It looks good. "Many-to-many" relationships usually use a junction table to link two tables together, forming two "one-to-many" relationships. Your characters and actions table will be linked using a junction table. Create a new table called character_actions. It will describe what actions each character can perform.*/
+
+create table character_actions();
+
+/*Your junction table will use the primary keys from the characters and actions tables as foreign keys to create the relationship. Add a column named character_id to your junction table. Give it the type of INT and constraint of NOT NULL.*/
+
+alter table character_actions add column character_id int not null;
+
+/*The foreign keys you set before were added when you created the column. You can set an existing column as a foreign key like this:
+ALTER TABLE table_name ADD FOREIGN KEY(column_name) REFERENCES referenced_table(referenced_column);
+Set the character_id column you just added as a foreign key that references the character_id from the characters table.*/
+
+alter table character_actions add foreign key(character_id) references characters(character);
+
+/*View the details of the character_actions table to see the foreign key you added.*/
+
+\d character_actions;
+
+/*Add another column to character_actions named action_id. Give it a type of INT and constraint of NOT NULL.*/
+
+alter table character_actions add column action_id int not null;
+
+/*This will be a foreign key as well. Set the action_id column you just added as a foreign key that references the action_id column from the actions table.*/
+
+alter table character_action add foreign key(action_id) references actions(action_id);
+
+/*View the details of the character_actions table to see your keys.*/
+
+\d character_actions;
+
+/*Every table should have a primary key. Your previous tables had a single column as a primary key. This one will be different. You can create a primary key from two columns, known as a composite primary key. Here's an example:
+ALTER TABLE table_name ADD PRIMARY KEY(column1, column2);
+Use character_id and action_id to create a composite primary key for this table.*/
+
+alter table character_actions add primary key(character_id, action_id);
+
+/*This table will have multiple rows with the same character_id, and multiple rows the same action_id. So neither of them are unique. But you will never have the same character_id and action_id in a single row. So the two columns together can be used to uniquely identify each row. View the details of the character_actions table to see your composite key.*/
+
+\d character_actions;
+
+/*Insert three rows into character_actions for all the actions Yoshi can perform. He can perform all of them in the actions table. View the data in the characters and actions table to find the correct id's for the information.*/
+
+insert into character_actions values ('7', '1'), ('7', '2'), ('7', '3');
+
+/*View all the data in character_actions to see your rows.*/
+
+select * from character_actions;
+
+/*Add three more rows into character_actions for all of Daisy's actions. She can perform all of the actions, as well.*/
+
+insert into character_actions values ('6', '1'), ('6', '2'), ('6', '3');
+
+/*Bowser can perform all the actions. Add three rows to the table for him.*/
+
+insert into character_actions values ('5', '1'), ('5', '2'), ('5', '3');
+
+/*Next is Toad. Add three more rows for his actions.*/
+
+insert into character_actions values ('4', '1'), ('4', '2'), ('4', '3');
+
+/*You guessed it. Peach can perform all the actions as well, so add three more rows for her.*/
+
+insert into character_actions values ('3', '1'), ('3', '2'), ('3', '3');
+
+/*Add three more rows for Luigi's actions.*/
+
+insert into character_actions values ('2', '1'), ('2', '2'), ('2', '3');
+
+/*Last is Mario, add three rows for his actions.*/
+
+insert into character_actions values ('1', '1'), ('1', '2'), ('1', '3');
+
+/*That was a lot of work. View all the data in character_actions to see the rows you ended up with.*/
+
+select * from character_actions;
+
+/*Well done. The database is complete for now. Take a look around to see what you ended up with. First, display all the tables you created.*/
+
+\d
+
+/*There's five tables there. Nice job. Next, take a look at all the data in the characters table.*/
+
+select * from characters;
+
+/*Those are some lovely characters. View all the data in the more_info table.*/
+
+select * from more_info;
+
+/*
+You can see the character_id there so you just need to find the matching id in the characters table to find out who it's for. Or... You added that as a foreign key, that means you can get all the data from both tables with a JOIN command:
+SELECT columns FROM table_1 FULL JOIN table_2 ON table_1.primary_key_column = table_2.foreign_key_column;
+Enter a join command to see all the info from both tables. The two tables are characters and more_info. The columns are the character_id column from both tables since those are the linked keys.*/
+
+select * from characters full join more_info on characters.character_id = more_info.character_id;
+
+/*Now you can see all the info from both tables. If you recall, that's a "one-to-one" relationship. So there's one row in each table that matches a row from the other. Use another JOIN command to view the characters and sounds tables together. They both use the character_id column for their keys as well.*/
+
+select * from characters full join sounds on characters.character_id = sounds.character_id;
+
+/*This shows the "one-to-many" relationship. You can see that some of the characters have more than one row because they have many sounds. How can you see all the info from the characters, actions, and character_actions tables? Here's an example that joins three tables:
+SELECT columns FROM junction_table
+FULL JOIN table_1 ON junction_table.foreign_key_column = table_1.primary_key_column
+FULL JOIN table_2 ON junction_table.foreign_key_column = table_2.primary_key_column;
+Congratulations on making it this far. This is the last step. View all the data from characters, actions, and character_actions by joining all three tables. When you see the data, be sure to check the "many-to_many" relationship. Many characters will have many actions.*/
+
+select * from character_actions full join characters on character_actions.character_id = characters.character_id full join actions on character_actions.action_id = actions.action_id;

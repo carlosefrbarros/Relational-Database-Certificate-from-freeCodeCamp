@@ -50,3 +50,12 @@ SELECT columns FROM table_name WHERE condition; --> select to view columns based
 
 CREATE TABLE table_name(column_name DATATYPE CONSTRAINTS); --> create a table with the column as specified
 
+ALTER TABLE table_name ADD FOREIGN KEY(column_name) REFERENCES referenced_table(referenced_column); --> set a existing column as a foreign key
+
+ALTER TABLE table_name ADD PRIMARY KEY(column1, column2); --> use two columns to create a composite primary key
+
+SELECT columns FROM table_1 FULL JOIN table_2 ON table_1.primary_key_column = table_2.foreign_key_column; --> view data from given columns from 2 tables
+
+SELECT columns FROM junction_table
+FULL JOIN table_1 ON junction_table.foreign_key_column = table_1.primary_key_column
+FULL JOIN table_2 ON junction_table.foreign_key_column = table_2.primary_key_column; --> join 3 tables
