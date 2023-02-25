@@ -1,0 +1,16 @@
+sh file.sh --> run a script with the shell interpreter
+
+bash file.sh --> run a script with the bash (bourne-again shell) interpreter
+
+which bash --> show the location of the bash interpreter
+
+chmod +x file.sh --> give every user permission to execute the file
+
+VARIABLE_NAME=VALUE --> create a variable, cannot have a space around the equal (=) sign
+
+$VARIABLE_NAME --> to use a variable you need to put the $ sign before the variable name
+
+man <command> --> show a manual for the command
+
+ctrl+c --> close the script execution
+
