@@ -14,3 +14,29 @@ man <command> --> show a manual for the command
 
 ctrl+c --> close the script execution
 
+# <comment> --> comment syntax
+
+if [[ CONDITION ]]
+then
+  STATEMENTS
+else
+  STATEMENTS
+fi
+--> command if structure
+
+[[ expression ]] --> execute conditional command
+
+test [expr] --> evaluate conditional expression
+
+for (( i = 10; i > 0; i-- ))
+do
+  echo $i
+done
+--> for loop structure
+
+while [[ CONDITION ]]
+do
+  STATEMENTS
+done
+--> while loop structure
+
