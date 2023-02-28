@@ -40,3 +40,16 @@ do
 done
 --> while loop structure
 
+ARR=("arg1" "arg2" ... "argn") --> define an array
+
+FUNCTION_NAME() {
+  STATEMENTS
+}
+--> function structure
+
+until [[ CONDITION ]]
+do
+  STATEMENTS
+done
+--> until loop structure
+
